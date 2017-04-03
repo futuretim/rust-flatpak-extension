@@ -12,6 +12,7 @@
     {
         "build-args": [ "--share=network" ],
         "env": {
+            "PATH": "$PATH:/usr/lib/sdk/rust/stage0/bin"
         }
     },
     "modules": [
@@ -49,7 +50,7 @@
                 {
                     "type": "shell",
                     "commands": [
-                        "./configure --cargo=/usr/lib/sdk/rust/stage0/bin/cargo --rustc=/usr/lib/sdk/rust/bin/rustc --rustdoc=/usr/lib/sdk/rust/bin/rustdoc",
+                        "echo $PATH && ./configure --prefix=/app --cargo=/usr/lib/sdk/rust/stage0/bin/cargo --rustc=/usr/lib/sdk/rust/bin/rustc --rustdoc=/usr/lib/sdk/rust/bin/rustdoc",
                         "make",
                         "make install"
                     ]
