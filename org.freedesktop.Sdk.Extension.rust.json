@@ -1,0 +1,84 @@
+{
+    "id": "org.freedesktop.Sdk.Extension.rust",
+    "branch": "1.6",
+    "runtime": "org.freedesktop.Sdk",
+    "build-extension": true,
+    "sdk": "org.freedesktop.Sdk",
+    "runtime-version": "1.6",
+    "sdk-extensions": [],
+    "separate-locales": false,
+    "cleanup": [ "/share/info", "/share/man" ],
+    "build-options" :
+    {
+        "build-args": [ "--share=network" ],
+        "env": {
+        }
+    },
+    "modules": [
+        {
+            "name": "rust",
+            "sources": [           
+                {
+                    "type": "git",
+                    "url": "https://github.com/rust-lang/rust.git",
+                    "branch": "30cf806ef8881c41821fbd43e5cf3699c5290c16"
+                },
+                {
+                    "type": "file",
+                    "path": "config.toml"
+                },
+                {
+                    "type": "shell",
+                    "commands": [
+                        "./x.py build", 
+                        "./x.py dist --install",
+                        "cp -R build/x86_64-unknown-linux-gnu/stage0 /usr/lib/sdk/rust",
+                        "ls /usr/lib/sdk/rust/stage0"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "cargo",
+            "sources": [           
+                {
+                    "type": "git",
+                    "url": "https://github.com/rust-lang/cargo",
+                    "branch": "f9e54817e53c7b9845cc7c1ede4c11e4d3e42e36"
+                },
+                {
+                    "type": "shell",
+                    "commands": [
+                        "./configure --cargo=/usr/lib/sdk/rust/stage0/bin/cargo --rustc=/usr/lib/sdk/rust/bin/rustc --rustdoc=/usr/lib/sdk/rust/bin/rustdoc",
+                        "make",
+                        "make install"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "scripts",
+            "sources": [
+                {
+                    "type": "script",
+                    "commands": [
+                        "mkdir -p /app/lib",
+                        "cp /usr/lib/sdk/rust/lib/*.so* /app/lib/"
+                    ],
+                    "dest-filename": "install.sh"
+                },
+                {
+                    "type": "script",
+                    "commands": [
+                        "export PATH=$PATH:/usr/lib/sdk/rust/bin"
+                    ],
+                    "dest-filename": "use.sh"
+                }
+            ],
+            "buildsystem": "simple",
+            "build-commands": [
+                "cp use.sh install.sh /usr/lib/sdk/rust/"
+            ]
+        }
+    ]
+}
