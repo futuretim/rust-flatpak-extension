@@ -7,12 +7,11 @@
     "runtime-version": "1.6",
     "sdk-extensions": [],
     "separate-locales": false,
-    "cleanup": [ "/share/info", "/share/man" ],
+    "cleanup": [ "/share/info", "/share/man", "/usr/lib/sdk/rust/stage0" ],
     "build-options" :
     {
         "build-args": [ "--share=network" ],
         "env": {
-            "PATH": "$PATH:/usr/lib/sdk/rust/stage0/bin"
         }
     },
     "modules": [
@@ -41,21 +40,21 @@
         },
         {
             "name": "cargo",
+            "ensure-writable": ["/lib/rustlib/rust-installer-version", "/lib/rustlib/uninstall.sh", "/lib/rustlib/components"],
             "sources": [           
                 {
                     "type": "git",
                     "url": "https://github.com/rust-lang/cargo",
                     "branch": "f9e54817e53c7b9845cc7c1ede4c11e4d3e42e36"
-                },
-                {
-                    "type": "shell",
-                    "commands": [
-                        "echo $PATH && ./configure --prefix=/app --cargo=/usr/lib/sdk/rust/stage0/bin/cargo --rustc=/usr/lib/sdk/rust/bin/rustc --rustdoc=/usr/lib/sdk/rust/bin/rustdoc",
+                }
+            ],
+            "buildsystem": "simple",
+            "build-commands": [
+                "./configure --prefix=/usr/lib/sdk/rust --cargo=/usr/lib/sdk/rust/stage0/bin/cargo --rustc=/usr/lib/sdk/rust/bin/rustc --rustdoc=/usr/lib/sdk/rust/bin/rustdoc",
                         "make",
                         "make install"
                     ]
-                }
-            ]
+
         },
         {
             "name": "scripts",
