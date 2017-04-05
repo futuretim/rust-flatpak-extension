@@ -7,7 +7,7 @@
     "runtime-version": "1.6",
     "sdk-extensions": [],
     "separate-locales": false,
-    "cleanup": [ "/share/info", "/share/man", "/usr/lib/sdk/rust/stage0" ],
+    "cleanup": [ "/share/info", "/share/man", "/stage0" ],
     "build-options" :
     {
         "build-args": [ "--share=network" ],
