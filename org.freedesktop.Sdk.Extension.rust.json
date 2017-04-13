@@ -32,7 +32,7 @@
                     "commands": [
                         "./x.py build", 
                         "./x.py dist --install",
-                        "cp -R build/x86_64-unknown-linux-gnu/stage0 /usr/lib/sdk/rust"
+                        "cp -R build/*/stage0 /usr/lib/sdk/rust"
                     ]
                 }
             ]
